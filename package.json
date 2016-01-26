@@ -1,0 +1,33 @@
+{
+  "name": "forger",
+  "version": "1.0.0",
+  "description": "Async utilities and helpers for node",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/indieforger/forger.git"
+  },
+  "keywords": [
+    "forger",
+    "async",
+    "promise",
+    "es6",
+    "utils",
+    "helpers",
+    "resolve",
+    "reject"
+  ],
+  "author": "https://github.com/indieforger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/indieforger/forger/issues"
+  },
+  "homepage": "https://github.com/indieforger/forger#readme",
+  "devDependencies": {
+    "mocha": "^2.3.4",
+    "should": "^8.2.0"
+  }
+}
