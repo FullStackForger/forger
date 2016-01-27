@@ -3,8 +3,8 @@ const
   should = require('should'),
   forger = require('../')
 
-describe('#doInParallel()', function () {
-  let doInParallel = forger.doInParallel
+describe('#parallel()', function () {
+  let parallel = forger.parallel
 
   it('should execute all methods and resolve', function (done) {
     let
@@ -19,7 +19,7 @@ describe('#doInParallel()', function () {
           }
       }
 
-    doInParallel(
+    parallel(
       makeFunc(30),
       makeFunc(20),
       makeFunc(10)
@@ -38,7 +38,7 @@ describe('#doInParallel()', function () {
       goodFn = function (next) { solved++; next() },
       badFn = function (next) { next(new Error(errMsg)) }
 
-    doInParallel(goodFn, badFn, goodFn).then(() => {
+    parallel(goodFn, badFn, goodFn).then(() => {
       throw new Error('Execution error')
     }).catch((err) => {
       try {

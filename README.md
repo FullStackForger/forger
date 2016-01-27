@@ -11,12 +11,12 @@ doWhile(mainFn, testFn)
   .then(onResolve, onReject)
 ```
 
-## `doInParallel(func1, func2, ..., funcN)`
+## `parallel(func1, func2, ..., funcN)`
 
 It will execute all function in parallel and resolve promise after all
 methods completed successfully.
 
 ```
-doInParallel(method1, method2)
+parallel(method1, method2)
   .then(onResolve, onReject)
 ```
