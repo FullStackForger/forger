@@ -36,14 +36,17 @@ describe('#parallel()', function () {
       errMsg = 'Expected error',
       solved = 0,
       goodFn = function (next) { solved++; next() },
-      badFn = function (next) { next(new Error(errMsg)) }
+      badFn = function (next) { setTimeout(() => {
+        next(new Error(errMsg))
+      })}
 
     parallel(goodFn, badFn, goodFn).then(() => {
       throw new Error('Execution error')
     }).catch((err) => {
       try {
         err.message.should.be.exactly(errMsg)
-        solved.should.be.exactly(1)
+        solved.should.be.exactly(2)
+        done()
       } catch (err) {
         done(err)
       }
