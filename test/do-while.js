@@ -16,7 +16,6 @@ describe('#doWhile()', function () {
       counter.should.be.exactly(3).and.be.a.Number();
       done()
     }).catch((err) => {
-      console.log(err.stack)
       throw new Error('Execution error')
     })
   })
@@ -28,8 +27,23 @@ describe('#doWhile()', function () {
       testFn = function () { return true }
 
     doWhile(mainFn, testFn).then(() => {
-      throw new Error('Execution error')
+      done(new Error('Execution error'))
     }).catch((err) => {
+      err.message.should.be.exactly(errMsg)
+      done()
+    })
+  })
+
+  it('should reject if mainFn() continues with error', function (done) {
+    let
+      errMsg = 'Expected error',
+      mainFn = function (next) { next(new Error(errMsg)) },
+      testFn = function () { return true }
+
+    doWhile(mainFn, testFn).then(() => {
+      console.log('tya')
+      done(new Error('Execution error'))
+    }).catch(function (err) {
       err.message.should.be.exactly(errMsg)
       done()
     })
@@ -42,7 +56,7 @@ describe('#doWhile()', function () {
       testFn = function () { throw new Error(errMsg) }
 
     doWhile(mainFn, testFn).then(() => {
-      throw new Error('Execution error')
+      done(new Error('Execution error'))
     }).catch((err) => {
       err.message.should.be.exactly(errMsg)
       done()
