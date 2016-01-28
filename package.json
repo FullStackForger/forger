@@ -1,6 +1,6 @@
 {
   "name": "forger",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Async utilities and helpers for node",
   "main": "index.js",
   "scripts": {
