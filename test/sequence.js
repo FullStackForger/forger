@@ -4,15 +4,17 @@ const
   forger = require('../')
 
 describe('#sequence()', function () {
+  let data = 10
   let sequence = forger.sequence
 
   it('should execute all SYNC methods and resolve', function (done) {
-    let run = function (data, next) {
-      next(null,  data ? data * 2 : 10)
+    let run = function (next) {
+      data *= 2
+      next(null)
     }
 
-    sequence(run, run, run).then((data) => {
-      data.should.be.exactly(40)
+    sequence(run, run, run).then(() => {
+      data.should.be.exactly(80)
       done()
     }).catch((err) => {
       done(err)
@@ -21,14 +23,16 @@ describe('#sequence()', function () {
 
 
   it('should execute all ASYNC methods and resolve', function (done) {
-    let run = function (data, next) {
+    let data = 10
+    let run = function (next) {
       setTimeout(() => {
-        next(null,  data ? data * 2 : 10)
+        data *= 2
+        next(null)
       })
     }
 
-    sequence(run, run, run).then((data) => {
-      data.should.be.exactly(40)
+    sequence(run, run, run).then(() => {
+      should(data).be.exactly(80)
       done()
     }).catch((err) => {
       done(err)
@@ -39,8 +43,8 @@ describe('#sequence()', function () {
     let
       errMsg = 'Expected error',
       solved = 0,
-      goodFn = function (data, next) { solved++; next() },
-      badFn = function (data, next) { throw new Error(errMsg) }
+      goodFn = function (next) { solved++; next() },
+      badFn = function (next) { throw new Error(errMsg) }
 
     sequence(goodFn, badFn, goodFn).then(() => {
       done(new Error('Execution error'))
@@ -59,8 +63,8 @@ describe('#sequence()', function () {
     let
       errMsg = 'Expected error',
       solved = 0,
-      goodFn = function (data, next) { solved++; next() },
-      badFn = function (data, next) { setTimeout(() => next(new Error(errMsg))) }
+      goodFn = function (next) { solved++; next() },
+      badFn = function (next) { setTimeout(() => next(new Error(errMsg))) }
 
     sequence(goodFn, badFn, goodFn).then(() => {
       done(new Error('Execution error'))

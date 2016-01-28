@@ -31,8 +31,6 @@ sequence(method1, method2)
   .then(onResolve, onReject)
 ```
 
-Each sequence method is expected to have signature `method(data, next)`, where:
-- `data` is result of previous method,
+Each sequence method is expected to have signature `method(next)`, where:
 - `next(err, data)` is sequence continuation callback taking 2 parameters
   - `error` - `Error` type object
-  - 'data' - result of the sequence method
