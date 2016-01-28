@@ -20,3 +20,19 @@ methods completed successfully.
 parallel(method1, method2)
   .then(onResolve, onReject)
 ```
+
+## `sequence(func1, func2, ..., funcN)`
+
+It will execute all function in a sequence and resolve promise after all
+methods completed successfully.
+
+```
+sequence(method1, method2)
+  .then(onResolve, onReject)
+```
+
+Each sequence method is expected to have signature `method(data, next)`, where:
+- `data` is result of previous method,
+- `next(err, data)` is sequence continuation callback taking 2 parameters
+  - `error` - `Error` type object
+  - 'data' - result of the sequence method
