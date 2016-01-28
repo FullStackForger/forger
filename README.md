@@ -21,6 +21,10 @@ parallel(method1, method2)
   .then(onResolve, onReject)
 ```
 
+Each parallel method is expected to have signature `method(next)`, where:
+- `next(err, data)` is sequence continuation callback takes 0 or 1 parameter
+  - `error` - `Error` type object
+
 ## `sequence(func1, func2, ..., funcN)`
 
 It will execute all function in a sequence and resolve promise after all
@@ -32,5 +36,5 @@ sequence(method1, method2)
 ```
 
 Each sequence method is expected to have signature `method(next)`, where:
-- `next(err, data)` is sequence continuation callback taking 2 parameters
+- `next(err, data)` is sequence continuation callback takes 0 or 1 parameter
   - `error` - `Error` type object
