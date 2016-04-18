@@ -1,50 +1,50 @@
-'use strict'
+'use strict';
 const
   should = require('should'),
-  forger = require('../')
+  forger = require('../');
 
 describe('#failover', function () {
-  const failover = forger.failover
+  const failover = forger.failover;
 
-  let failures = 0
-  let succeedSync = function (next) { next(failures) }
+  let failures = 0;
+  let succeedSync = function (next) { next(failures) };
   let succeedAsync = function (next) { setTimeout(() => { next(failures) }) }
-  let failSync = function (next) { failures++; next() }
+  let failSync = function (next) { failures++; next() };
   let failAsync = function (next) { setTimeout(() => { failSync(next) }) }
 
-  beforeEach(function () { failures = 0 })
+  beforeEach(function () { failures = 0 });
 
   describe('resolves', function () {
 
     it('should execute only first successful SYNC method', function (done) {
       failover(succeedSync, succeedSync, succeedSync).then((data) => {
-        data.should.be.exactly(0)
+        data.should.be.exactly(0);
         done()
       }).catch((err) => done(err))
-    })
+    });
 
     it('should continue till first successful SYNC method', function (done) {
       failover(failSync, failSync, succeedSync).then((data) => {
-        data.should.be.exactly(2)
+        data.should.be.exactly(2);
         done()
       }).catch((err) => done(err))
-    })
+    });
 
     it('should execute only first successful ASYNC method', function (done) {
       failover(succeedAsync, succeedAsync, succeedAsync).then((data) => {
-        data.should.be.exactly(0)
+        data.should.be.exactly(0);
         done()
       }).catch((err) => done(err))
-    })
+    });
 
 
     it('should continue till first successful ASYNC method', function (done) {
       failover(failAsync, failAsync, succeedAsync).then((data) => {
-        data.should.be.exactly(2)
+        data.should.be.exactly(2);
         done()
       }).catch((err) => done(err))
     })
-  })
+  });
 
   describe('rejections', function () {
 
@@ -53,24 +53,24 @@ describe('#failover', function () {
         done(new Error('Failover promise was expected to be rejected'))
       }).catch((err) => {
         try {
-          err.should.be.an.instanceOf(Error)
-          err.message.should.be.exactly('All tempted methods failed')
+          err.should.be.an.instanceOf(Error);
+          err.message.should.be.exactly('All tempted methods failed');
           done();
         } catch (err) { done(err) }
       })
-    })
+    });
 
     it('sould reject if none of ASYNC methods continue with data', function (done) {
       failover(failAsync, failAsync, failAsync).then((data) => {
         done(new Error('Failover promise was expected to be rejected'))
       }).catch((err) => {
         try {
-          err.should.be.an.instanceOf(Error)
-          err.message.should.be.exactly('All tempted methods failed')
+          err.should.be.an.instanceOf(Error);
+          err.message.should.be.exactly('All tempted methods failed');
           done();
         } catch (err) { done(err) }
       })
     })
   })
 
-})
+});
